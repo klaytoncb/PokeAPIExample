@@ -1,0 +1,99 @@
+<div class="container-fluid">
+
+    <div class="row g-1" infinite-scroll='$poke.next()' infinite-scroll-distance="2" infinite-scroll-disabled="$poke.busy">
+
+        <div class="col-12">
+
+            <input type="text" class="form-control" data-ng-model="$poke.search.name" data-ng-model-options="{ debounce: 500 }" data-ng-change="$poke.onFilterChange()" placeholder="Pesquise aqui" />
+        </div>
+
+        <div class="col-3 d-flex cursor-pointer" data-ng-repeat="pokemon in $poke.pokemons | filter:$poke.search" data-ng-click="$poke.showModal(pokemon)">
+
+            <div class="card w-100">
+
+                <img data-ng-show="pokemon" data-ng-src="{{ pokemon.sprites.front_default }}" class="card-img-top" alt="{{ name }}">
+
+                <div class="spinner-grow" role="status" data-ng-show="!pokemon">
+                    <span class="visually-hidden"></span>
+                </div>
+
+                <div class="card-body">
+
+                    <h5 class="card-title text-center text-capitalize" data-ng-show="pokemon">{{ pokemon.name }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="poke-modal" class="modal" tabindex="-1">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title text-capitalize">{{ $poke.pokemonSelected.name }}</h5>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="container-fluid">
+
+                    <div class="row">
+
+                        <div class="col-12">
+
+                            <img data-ng-src="{{ $poke.pokemonSelected.sprites.versions['generation-viii'].icons.front_default }}" data-ng-if="$poke.pokemonSelected" class="w-auto" alt="{{ name }}">
+                        </div>
+
+                        <div class="col-12 mt-4">
+
+                            <h6>Types:</h6>
+
+                            <ul class="list-group">
+
+                                <li class="list-group-item text-capitalize" data-ng-repeat="item in $poke.pokemonSelected.types">{{ item.type.name }}</li>
+                            </ul>
+                        </div>
+
+                        <div class="col-12 mt-4">
+
+                            <h6>Abilities:</h6>
+
+                            <ul class="list-group">
+
+                                <li class="list-group-item text-capitalize" data-ng-repeat="item in $poke.pokemonSelected.abilities">{{ item.ability.name.replace("-", " ") }}</li>
+                            </ul>
+                        </div>
+
+                        <div class="col-12 mt-4">
+
+                            <h6>Moves:</h6>
+
+                            <ul class="list-group">
+
+                                <li class="list-group-item text-capitalize" data-ng-repeat="item in $poke.pokemonSelected.moves">{{ item.move.name.replace("-", " ") }}</li>
+                            </ul>
+                        </div>
+
+                        <div class="col-12 mt-4">
+
+                            <h6>Basic Stats:</h6>
+
+                            <ul class="list-group">
+
+                                <li class="list-group-item text-capitalize" data-ng-repeat="item in $poke.pokemonSelected.stats">{{ item.stat.name.replace("-", " ") }} - {{ item.stat.base_stat }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
